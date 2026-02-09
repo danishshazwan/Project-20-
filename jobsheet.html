@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Jobsheet Page</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #020024, #00D4FF);
+            background-attachment: fixed;
+            color: #fff;
+        }
+        /* Navigation button with dropdown */
+        .nav-container {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+        }
+        .nav-button {
+            display: inline-block;
+            padding: 12px 25px;
+            background: #020024;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 40px;
+            font-weight: bold;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 15px #00D4FF, 0 0 30px #00D4FF;
+            cursor: pointer;
+        }
+        .nav-button::before {
+            content: "👨‍🎓"; /* icon student */
+            margin-right: 8px;
+        }
+        .dropdown {
+            display: none;
+            position: absolute;
+            top: 50px;
+            right: 0;
+            background: rgba(0,0,0,0.9);
+            border-radius: 10px;
+            box-shadow: 0 0 15px #00D4FF;
+        }
+        .dropdown a {
+            display: block;
+            padding: 10px 20px;
+            color: #00D4FF;
+            text-decoration: none;
+            transition: background 0.3s ease;
+        }
+        .dropdown a:hover {
+            background: #00D4FF;
+            color: #020024;
+        }
+        .nav-container:hover .dropdown {
+            display: block;
+        }
+        header {
+            background: linear-gradient(135deg, #00D4FF, #020024);
+            color: #fff;
+            padding: 40px 0;
+            text-align: center;
+            border-bottom: 5px solid #00D4FF;
+            position: relative;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            letter-spacing: 2px;
+            font-weight: bold;
+            text-shadow: 0 0 15px #00D4FF, 0 0 30px #00D4FF;
+        }
+        .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin: 40px auto;
+            max-width: 1200px;
+            gap: 20px;
+        }
+        .profile {
+            flex: 1;
+            max-width: 550px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 15px;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.6);
+            text-align: center;
+            padding: 20px;
+        }
+        .profile h2 {
+            color: #00D4FF;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+            text-shadow: 0 0 10px #00D4FF;
+        }
+        .image-box {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px #00D4FF;
+        }
+        /* Glowing animated effect */
+        .effect-box {
+            background: linear-gradient(135deg, #00D4FF, #020024, #00D4FF);
+            background-size: 200% 200%;
+            animation: glowMove 4s ease infinite;
+        }
+        @keyframes glowMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .effect-box:hover {
+            box-shadow: 0 0 25px #00D4FF, 0 0 50px #00D4FF;
+            transform: scale(1.05);
+            transition: all 0.3s ease;
+        }
+        .jobsheet-section {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .jobsheet-card {
+            background: rgba(0,0,0,0.6);
+            border: 2px solid #00D4FF;
+            border-radius: 10px;
+            padding: 15px;
+            color: #fff;
+            text-shadow: 0 0 5px #00D4FF;
+            transition: transform 0.3s ease;
+        }
+        .jobsheet-card:hover {
+            transform: scale(1.05);
+            background: rgba(0,0,0,0.8);
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: rgba(0,0,0,0.7);
+            margin-top: 40px;
+            font-size: 0.9em;
+            color: #ccc;
+            border-top: 2px solid #00D4FF;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Our Jobsheet</h1>
+        <div class="nav-container">
+            <div class="nav-button">Menu</div>
+            <div class="dropdown">
+                <a href="index.html">Home</a>
+                <a href="aboutus.html">About Us</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Section Danish -->
+        <div class="profile">
+            <h2>DANISH SHAZWAN BIN SUWANDI</h2>
+            <div class="image-box effect-box"></div>
+            <div class="jobsheet-section">
+                <div class="jobsheet-card">HTML</div>
+                <div class="jobsheet-card">CSS</div>
+                <div class="jobsheet-card">JavaScript</div>
+                <div class="jobsheet-card">LocalStorage</div>
+            </div>
+        </div>
+
+        <!-- Section Adilah -->
+        <div class="profile">
+            <h2>NUR ADILAH BINTI SHAMSUDDIN</h2>
+            <div class="image-box effect-box"></div>
+            <div class="jobsheet-section">
+                <div class="jobsheet-card">HTML</div>
+                <div class="jobsheet-card">CSS</div>
+                <div class="jobsheet-card">JavaScript</div>
+                <div class="jobsheet-card">LocalStorage</div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2026 Group Project | Mobile App Development Assignment
+    </footer>
+
+</body>
+</html>
