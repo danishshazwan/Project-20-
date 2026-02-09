@@ -2,170 +2,204 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>About Us</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Electric Style</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
+        * {
+            margin: 0; padding: 0; box-sizing: border-box;
+        }
+
         body {
-            font-family: 'Segoe UI', Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background: linear-gradient(135deg, #020024, #00D4FF);
-            background-attachment: fixed;
-            color: #fff;
+            min-height: 100vh;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            padding: 20px; overflow: hidden;
+            background: #000;
+            font-family: 'Poppins', sans-serif;
         }
-        /* Navigation button with dropdown */
-        .nav-container {
-            position: absolute;
-            top: 20px;
-            right: 30px;
-        }
-        .nav-button {
-            display: inline-block;
-            padding: 12px 25px;
-            background: #020024;
-            color: #fff;
-            text-decoration: none;
+
+        /* --- VIDEO BACKGROUND FRAME --- */
+        #bg-video {
+            position: fixed;
+            top: 50%; left: 50%;
+            width: 92vw;
+            height: 92vh;
+            z-index: -1;
+            transform: translate(-50%, -50%);
+            object-fit: cover;
             border-radius: 40px;
-            font-weight: bold;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 0 15px #00D4FF, 0 0 30px #00D4FF;
-            cursor: pointer;
+            filter: brightness(30%);
+            box-shadow: 0 0 50px rgba(0, 242, 254, 0.2);
         }
-        .nav-button::before {
-            content: "👨‍🎓";
-            margin-right: 8px;
-        }
-        .dropdown {
-            display: none;
-            position: absolute;
-            top: 50px;
-            right: 0;
-            background: rgba(0,0,0,0.9);
-            border-radius: 10px;
-            box-shadow: 0 0 15px #00D4FF;
-        }
-        .dropdown a {
-            display: block;
-            padding: 10px 20px;
-            color: #00D4FF;
-            text-decoration: none;
-            transition: background 0.3s ease;
-        }
-        .dropdown a:hover {
-            background: #00D4FF;
-            color: #020024;
-        }
-        .nav-container:hover .dropdown {
-            display: block;
-        }
-        header {
-            background: linear-gradient(135deg, #00D4FF, #020024);
+
+        /* --- ELECTRIC TITLE WITH FLICKER EFFECT --- */
+        .title { margin-bottom: 40px; text-align: center; z-index: 1; }
+        .title h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.8rem;
             color: #fff;
-            padding: 40px 0;
-            text-align: center;
-            border-bottom: 5px solid #00D4FF;
-            position: relative;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            text-shadow: 0 0 10px #00f2fe, 0 0 20px #00f2fe, 0 0 40px #4facfe;
+            animation: flicker 2.5s infinite alternate;
         }
-        header h1 {
-            margin: 0;
-            font-size: 2.5em;
-            letter-spacing: 2px;
-            font-weight: bold;
-            text-shadow: 0 0 15px #00D4FF, 0 0 30px #00D4FF;
+
+        @keyframes flicker {
+            0%, 18%, 22%, 25%, 53%, 57%, 100% {
+                text-shadow: 0 0 10px #00f2fe, 0 0 20px #00f2fe, 0 0 40px #4facfe;
+            }
+            20%, 24%, 55% {
+                text-shadow: none;
+                opacity: 0.7;
+            }
         }
+
         .container {
-            display: flex;
-            justify-content: space-around;
+            display: flex; 
+            gap: 60px; 
             flex-wrap: wrap;
-            margin: 40px auto;
-            max-width: 1000px;
+            justify-content: center; 
+            z-index: 1;
+        }
+
+        /* Wrapper for card and name */
+        .card-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             gap: 20px;
         }
-        .profile {
-            flex: 1;
-            max-width: 450px;
-            background: rgba(255, 255, 255, 0.08);
-            border-radius: 15px;
-            box-shadow: 0 6px 25px rgba(0,0,0,0.6);
-            text-align: center;
-            padding: 20px;
-        }
-        .profile h2 {
-            color: #00D4FF;
-            margin-bottom: 15px;
-            font-size: 1.5em;
-            text-shadow: 0 0 10px #00D4FF;
-        }
-        .image-box {
-            width: 200px;
-            height: 200px;
-            margin: 0 auto 15px;
-            border-radius: 10px;
+
+        /* --- NEON CARD STYLE --- */
+        .card {
+            width: 260px; height: 380px;
+            perspective: 1000px;
+            position: relative;
+            border-radius: 20px;
+            padding: 3px;
             overflow: hidden;
-            border: 3px solid #00D4FF;
-            box-shadow: 0 0 15px #00D4FF;
         }
-        .image-box img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: conic-gradient(transparent, #00f2fe, #4facfe, transparent 30%);
+            animation: rotate-light 4s linear infinite;
+            z-index: -1;
         }
-        .intro {
-            font-size: 1.1em;
-            line-height: 1.6;
-            margin-top: 10px;
+
+        @keyframes rotate-light {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
-        footer {
+
+        .card-inner {
+            position: relative;
+            width: 100%; height: 100%;
+            transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-style: preserve-3d;
+            border-radius: 17px;
+            background: #0a0a0a;
+        }
+
+        .card:hover .card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%; height: 100%;
+            backface-visibility: hidden;
+            border-radius: 17px;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            padding: 25px; text-align: center;
+        }
+
+        .card-front h2 { 
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.2rem; 
+            color: white; 
+            text-shadow: 0 0 15px #00f2fe;
+        }
+
+        .card-back {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: #000; 
+            transform: rotateY(180deg);
+        }
+
+        .card-back h3 { font-family: 'Orbitron', sans-serif; margin-bottom: 10px; }
+
+        /* --- ELECTRIC NAME STYLE BELOW CARD --- */
+        .card-name {
+            font-family: 'Orbitron', sans-serif;
+            color: #00f2fe;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.9rem;
             text-align: center;
-            padding: 20px;
-            background: rgba(0,0,0,0.7);
-            margin-top: 40px;
-            font-size: 0.9em;
-            color: #ccc;
-            border-top: 2px solid #00D4FF;
+            text-shadow: 0 0 10px rgba(0, 242, 254, 0.8);
+            padding: 8px 15px;
+            border: 1px solid rgba(0, 242, 254, 0.5);
+            border-radius: 5px;
+            background: rgba(0, 242, 254, 0.05);
+            max-width: 260px;
+        }
+
+        @media (max-width: 768px) {
+            .container { gap: 30px; }
+            .card { width: 220px; height: 320px; }
+            .title h1 { font-size: 2rem; }
+            .card-name { font-size: 0.75rem; }
         }
     </style>
 </head>
 <body>
 
-    <header>
+    <video autoplay muted loop playsinline id="bg-video">
+        <source src="motion.mp4" type="video/mp4">
+    </video>
+
+    <div class="title">
         <h1>About Us</h1>
-        <div class="nav-container">
-            <div class="nav-button">Menu</div>
-            <div class="dropdown">
-                <a href="index.html">Home</a>
-                <a href="jobsheet.html">Our Jobsheet</a>
-            </div>
-        </div>
-    </header>
-
-    <div class="container">
-        <!-- Section Danish -->
-        <div class="profile">
-            <h2>DANISH SHAZWAN BIN SUWANDI</h2>
-            <div class="image-box">
-                <img src="dan.jpg" alt="Danish Shazwan Bin Suwandi">
-            </div>
-            <p class="intro">
-                Hi, I am Danish Shazwan Bin Suwandi. I enjoy working on web development projects, focusing on clean design and interactive features. My goal is to create user-friendly applications that balance aesthetics and functionality.
-            </p>
-        </div>
-
-        <!-- Section Adilah -->
-        <div class="profile">
-            <h2>NUR ADILAH BINTI SHAMSUDDIN</h2>
-            <div class="image-box">
-                <img src="adilah.jpg" alt="Nur Adilah Binti Shamsuddin">
-            </div>
-            <p class="intro">
-                Hello, I am Nur Adilah Binti Shamsuddin. I am passionate about coding and design, and I love collaborating on projects that challenge creativity. My aim is to deliver polished results that reflect teamwork and innovation.
-            </p>
-        </div>
     </div>
 
-    <footer>
-        &copy; 2026 Group Project | Mobile App Development Assignment
-    </footer>
+    <div class="container">
+        <div class="card-wrapper">
+            <div class="card">
+                <div class="card-inner">
+                    <div class="card-front">
+                        <h2>Vision</h2>
+                    </div>
+                    <div class="card-back">
+                        <h3>Our Vision</h3>
+                        <p>To bring the most powerful digital innovation to the world.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="card-name">DANISH SHAZWAN BIN SUWANDI</div>
+        </div>
+
+        <div class="card-wrapper">
+            <div class="card">
+                <div class="card-inner">
+                    <div class="card-front">
+                        <h2>Mission</h2>
+                    </div>
+                    <div class="card-back">
+                        <h3>Our Mission</h3>
+                        <p>To provide solid service and extraordinary experiences.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="card-name">NOR ADILAH BINTI SHAM SUDDIN</div>
+        </div>
+    </div>
 
 </body>
 </html>
