@@ -5,13 +5,35 @@
     <title>Main Page</title>
     <style>
         body {
-            font-family: 'Segoe UI', Arial, sans-serif;
+            font-family: 'Orbitron', Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background: linear-gradient(135deg, #020024, #00D4FF);
-            background-attachment: fixed;
             color: #fff;
+            background: #000;
+            overflow-x: hidden;
+            min-height: 100vh;
+            position: relative;
         }
+
+        /* Futuristic animated circuit background */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-image: 
+                linear-gradient(#00f2fe 1px, transparent 1px),
+                linear-gradient(90deg, #4facfe 1px, transparent 1px);
+            background-size: 60px 60px;
+            opacity: 0.15;
+            animation: circuitFlow 12s linear infinite;
+            z-index: -1;
+        }
+        @keyframes circuitFlow {
+            from { transform: translateY(0); }
+            to { transform: translateY(-60px); }
+        }
+
         /* Navigation button with dropdown */
         .nav-container {
             position: absolute;
@@ -21,18 +43,19 @@
         .nav-button {
             display: inline-block;
             padding: 12px 25px;
-            background: #020024;
-            color: #fff;
+            background: rgba(10,10,10,0.8);
+            color: #00f2fe;
             text-decoration: none;
             border-radius: 40px;
             font-weight: bold;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 0 15px #00D4FF, 0 0 30px #00D4FF;
+            box-shadow: 0 0 15px #00f2fe, 0 0 30px #4facfe;
             cursor: pointer;
+            text-shadow: 0 0 10px #00f2fe;
         }
         .nav-button::before {
-            content: "👨‍🎓"; /* icon student */
+            content: "👨‍🎓";
             margin-right: 8px;
         }
         .dropdown {
@@ -40,65 +63,73 @@
             position: absolute;
             top: 50px;
             right: 0;
-            background: rgba(0,0,0,0.9);
+            background: rgba(0,0,0,0.85);
             border-radius: 10px;
-            box-shadow: 0 0 15px #00D4FF;
+            box-shadow: 0 0 15px #00f2fe;
         }
         .dropdown a {
             display: block;
             padding: 10px 20px;
-            color: #00D4FF;
+            color: #00f2fe;
             text-decoration: none;
             transition: background 0.3s ease;
         }
         .dropdown a:hover {
-            background: #00D4FF;
-            color: #020024;
+            background: #00f2fe;
+            color: #000;
         }
         .nav-container:hover .dropdown {
             display: block;
         }
+
         header {
-            background: linear-gradient(135deg, #00D4FF, #020024);
-            color: #fff;
-            padding: 40px 0;
+            padding: 80px 0 40px;
             text-align: center;
-            border-bottom: 5px solid #00D4FF;
             position: relative;
         }
         header h1 {
             margin: 0;
-            font-size: 2.8em;
-            letter-spacing: 2px;
+            font-size: 3em;
+            letter-spacing: 4px;
             font-weight: bold;
-            text-shadow: 0 0 15px #00D4FF, 0 0 30px #00D4FF;
+            color: #fff;
+            text-shadow: 0 0 15px #00f2fe, 0 0 30px #4facfe;
+            animation: glowPulse 4s infinite alternate;
         }
+        @keyframes glowPulse {
+            from { text-shadow: 0 0 15px #00f2fe, 0 0 30px #4facfe; }
+            to { text-shadow: 0 0 25px #4facfe, 0 0 50px #00f2fe; }
+        }
+
         section {
-            max-width: 650px;
-            margin: 30px auto;
-            padding: 25px;
-            background: rgba(255, 255, 255, 0.08);
+            max-width: 700px;
+            margin: 40px auto;
+            padding: 30px;
+            background: rgba(0, 242, 254, 0.08);
             border-radius: 15px;
-            box-shadow: 0 6px 25px rgba(0,0,0,0.6);
+            box-shadow: 0 0 25px rgba(0,242,254,0.4);
             text-align: center;
             position: relative;
         }
+
         .button {
             display: inline-block;
             padding: 14px 35px;
             margin: 15px;
-            background: #020024;
-            color: #fff;
+            background: rgba(10,10,10,0.8);
+            color: #00f2fe;
             text-decoration: none;
             border-radius: 40px;
             font-weight: bold;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 0 15px #00D4FF, 0 0 30px #00D4FF;
-            transition: transform 0.3s ease;
+            box-shadow: 0 0 15px #00f2fe, 0 0 30px #4facfe;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-shadow: 0 0 10px #00f2fe;
         }
         .button:hover {
             transform: scale(1.08);
+            box-shadow: 0 0 25px #00f2fe, 0 0 50px #4facfe;
         }
         .button::before {
             content: "";
@@ -107,7 +138,7 @@
             left: -2px;
             right: -2px;
             bottom: -2px;
-            background: linear-gradient(90deg, #00D4FF, #020024, #00D4FF);
+            background: linear-gradient(90deg, #00f2fe, #4facfe, #00f2fe);
             border-radius: 40px;
             z-index: -1;
             background-size: 200% 200%;
@@ -118,6 +149,7 @@
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
+
         .hover-info {
             opacity: 0;
             max-height: 0;
@@ -126,28 +158,30 @@
             font-size: 1.2em;
             line-height: 1.6;
             margin-top: 20px;
-            color: #fff;
-            text-shadow: 0 0 10px #00D4FF, 0 0 20px #00D4FF;
+            color: #00f2fe;
+            text-shadow: 0 0 10px #00f2fe, 0 0 20px #4facfe;
         }
         section:hover .hover-info {
             opacity: 1;
             max-height: 500px;
         }
+
         footer {
             text-align: center;
             padding: 20px;
-            background: rgba(0,0,0,0.7);
+            background: rgba(10,10,10,0.85);
             margin-top: 40px;
             font-size: 0.9em;
-            color: #ccc;
-            border-top: 2px solid #00D4FF;
+            color: #00f2fe;
+            border-top: 2px solid #4facfe;
+            text-shadow: 0 0 10px #00f2fe;
         }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>Welcome to Our Page</h1>
+        <h1>Welcome to Our Main Space</h1>
         <div class="nav-container">
             <div class="nav-button">Menu</div>
             <div class="dropdown">
@@ -164,7 +198,7 @@
         <!-- Hover info aesthetic -->
         <div class="hover-info">
             <p>
-                This page is developed for Our Mobile App Development Project 20% <br>
+                This page is developed for Our Mobile App Development Project (20%). <br>
                 The assignment consists of <strong>12 jobsheets</strong> divided into 4 categories:<br>
                 <em>HTML, CSS, JavaScript, and LocalStorage</em>.
             </p>
