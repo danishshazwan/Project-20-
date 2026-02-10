@@ -1,226 +1,413 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Jobsheet Page</title>
-    <style>
-        body {
-            font-family: 'Orbitron', Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background: #000;
-            color: #fff;
-            overflow-x: hidden;
-            min-height: 100vh;
-            position: relative;
-        }
+  <meta charset="UTF-8" />
+  <title>Jobsheet Page — Gempak Version</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    :root{
+      --neon-1: #00f2fe;
+      --neon-2: #4facfe;
+      --bg: #000;
+      --card-bg: rgba(0,0,0,0.6);
+    }
+    *{box-sizing:border-box}
+    body {
+      font-family: 'Orbitron', Arial, sans-serif;
+      background: radial-gradient(ellipse at 10% 10%, rgba(0,242,254,0.03), transparent 10%),
+                  linear-gradient(180deg,#000 0%, #020202 100%);
+      color: #fff;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+      min-height:100vh;
+    }
 
-        /* Futuristic animated circuit background */
-        body::before {
-            content: "";
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background-image: 
-                linear-gradient(#00f2fe 1px, transparent 1px),
-                linear-gradient(90deg, #4facfe 1px, transparent 1px);
-            background-size: 60px 60px;
-            opacity: 0.15;
-            animation: circuitFlow 12s linear infinite;
-            z-index: -1;
-        }
-        @keyframes circuitFlow {
-            from { transform: translateY(0); }
-            to { transform: translateY(-60px); }
-        }
+    /* circuit grid */
+    body::before{
+      content:"";
+      position:fixed; inset:0;
+      background-image:
+        linear-gradient(var(--neon-1) 1px, transparent 1px),
+        linear-gradient(90deg, var(--neon-2) 1px, transparent 1px);
+      background-size: 60px 60px;
+      opacity: 0.08;
+      z-index: -3;
+      animation: circuitFlow 14s linear infinite;
+      mix-blend-mode:screen;
+      filter: blur(0.6px);
+    }
+    @keyframes circuitFlow{from{transform:translateY(0)}to{transform:translateY(-60px)}}
 
-        /* Navigation button with dropdown */
-        .nav-container {
-            position: absolute;
-            top: 20px;
-            right: 30px;
-        }
-        .nav-button {
-            display: inline-block;
-            padding: 12px 25px;
-            background: rgba(10,10,10,0.8);
-            color: #00f2fe;
-            text-decoration: none;
-            border-radius: 40px;
-            font-weight: bold;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 0 15px #00f2fe, 0 0 30px #4facfe;
-            cursor: pointer;
-            text-shadow: 0 0 10px #00f2fe;
-        }
-        .nav-button::before {
-            content: "👨‍🎓";
-            margin-right: 8px;
-        }
-        .dropdown {
-            display: none;
-            position: absolute;
-            top: 50px;
-            right: 0;
-            background: rgba(0,0,0,0.85);
-            border-radius: 10px;
-            box-shadow: 0 0 15px #00f2fe;
-        }
-        .dropdown a {
-            display: block;
-            padding: 10px 20px;
-            color: #00f2fe;
-            text-decoration: none;
-            transition: background 0.3s ease;
-        }
-        .dropdown a:hover {
-            background: #00f2fe;
-            color: #000;
-        }
-        .nav-container:hover .dropdown {
-            display: block;
-        }
+    /* top-right themed arrow button */
+    .top-right {
+      position: fixed;
+      top: 18px;
+      right: 22px;
+      z-index: 60;
+    }
+    .arrow-btn {
+      width:56px;
+      height:56px;
+      border-radius:14px;
+      background: linear-gradient(135deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+      border: 2px solid rgba(0,242,254,0.12);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      cursor:pointer;
+      box-shadow: 0 6px 22px rgba(0,242,254,0.06), 0 0 18px rgba(79,172,254,0.04);
+      transition: transform .22s ease, box-shadow .22s ease, border-color .22s;
+      backdrop-filter: blur(6px);
+    }
+    .arrow-btn:hover{
+      transform: translateY(-4px) scale(1.03);
+      border-color: var(--neon-1);
+      box-shadow: 0 12px 40px rgba(0,242,254,0.12), 0 0 40px rgba(79,172,254,0.08);
+    }
+    .arrow-icon{
+      width:22px; height:22px;
+      display:inline-block;
+      color: var(--neon-1);
+      filter: drop-shadow(0 0 8px var(--neon-1));
+      transition: transform .22s ease;
+    }
 
-        header {
-            padding: 60px 0;
-            text-align: center;
-            position: relative;
-        }
-        header h1 {
-            margin: 0;
-            font-size: 2.8em;
-            letter-spacing: 3px;
-            font-weight: bold;
-            color: #fff;
-            text-shadow: 0 0 15px #00f2fe, 0 0 30px #4facfe;
-            animation: glowPulse 4s infinite alternate;
-        }
-        @keyframes glowPulse {
-            from { text-shadow: 0 0 15px #00f2fe, 0 0 30px #4facfe; }
-            to { text-shadow: 0 0 25px #4facfe, 0 0 50px #00f2fe; }
-        }
+    /* ripple effect element */
+    .ripple {
+      position:absolute;
+      left:50%; top:50%;
+      width:10px; height:10px;
+      background: radial-gradient(circle, rgba(255,255,255,0.9), rgba(255,255,255,0.2));
+      border-radius:50%;
+      transform: translate(-50%,-50%) scale(0);
+      opacity:0.18;
+      pointer-events:none;
+    }
 
-        .container {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin: 40px auto;
-            max-width: 1200px;
-            gap: 20px;
-        }
+    /* header */
+    header{ text-align:center; padding:44px 20px 10px; }
+    header h1{
+      margin:0;
+      font-size:2.6rem;
+      letter-spacing:2px;
+      color:#fff;
+      text-shadow: 0 0 18px var(--neon-1), 0 0 36px var(--neon-2);
+      animation: glowPulse 3s infinite alternate;
+    }
+    @keyframes glowPulse{
+      from{ text-shadow: 0 0 18px var(--neon-1), 0 0 36px var(--neon-2) }
+      to{ text-shadow: 0 0 36px var(--neon-2), 0 0 72px var(--neon-1) }
+    }
 
-        .profile {
-            flex: 1;
-            max-width: 550px;
-            background: rgba(0, 242, 254, 0.08);
-            border-radius: 15px;
-            box-shadow: 0 0 25px rgba(0,242,254,0.4);
-            text-align: center;
-            padding: 20px;
-            transition: transform 0.3s ease;
-        }
-        .profile:hover {
-            transform: scale(1.03);
-        }
-        .profile h2 {
-            color: #00f2fe;
-            margin-bottom: 15px;
-            font-size: 1.6em;
-            text-shadow: 0 0 10px #00f2fe;
-        }
+    /* layout & cards */
+    .container{
+      display:flex;
+      justify-content:center;
+      gap:36px;
+      padding:28px;
+      flex-wrap:wrap;
+      align-items:flex-start;
+    }
+    .profile{
+      width:340px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius:14px;
+      padding:20px;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.6), 0 0 30px rgba(0,242,254,0.06) inset;
+      border: 1px solid rgba(255,255,255,0.02);
+      position:relative;
+      transition: transform 0.6s cubic-bezier(.2,.9,.2,1);
+      backdrop-filter: blur(6px);
+    }
+    .profile:hover{ transform: translateY(-6px) rotateY(2deg) }
 
-        .image-box {
-            width: 200px;
-            height: 200px;
-            margin: 0 auto 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 15px #00f2fe;
-            background: linear-gradient(135deg, #00f2fe, #4facfe);
-            background-size: 200% 200%;
-            animation: glowMove 4s ease infinite;
-        }
-        @keyframes glowMove {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
+    .profile h2{
+      margin:0 0 12px 0;
+      color:var(--neon-1);
+      font-size:1.05rem;
+      text-shadow:0 0 10px var(--neon-1);
+      letter-spacing:1px;
+    }
 
-        .jobsheet-section {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            margin-top: 20px;
-        }
-        .jobsheet-card {
-            background: rgba(0,0,0,0.6);
-            border: 2px solid #00f2fe;
-            border-radius: 10px;
-            padding: 15px;
-            color: #fff;
-            text-shadow: 0 0 5px #00f2fe;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .jobsheet-card:hover {
-            transform: scale(1.05);
-            background: rgba(0,0,0,0.8);
-            box-shadow: 0 0 20px #00f2fe;
-        }
+    .jobsheet-section{ display:flex; flex-direction:column; gap:14px; }
 
-        footer {
-            text-align: center;
-            padding: 20px;
-            background: rgba(10,10,10,0.85);
-            margin-top: 40px;
-            font-size: 0.9em;
-            color: #00f2fe;
-            border-top: 2px solid #4facfe;
-            text-shadow: 0 0 10px #00f2fe;
-        }
-    </style>
+    .jobsheet-card{
+      background: var(--card-bg);
+      border: 2px solid rgba(0,242,254,0.18);
+      border-radius:10px;
+      padding:14px 14px;
+      color:#fff;
+      cursor:pointer;
+      position:relative;
+      transition: transform .28s cubic-bezier(.2,.9,.2,1), box-shadow .28s, border-color .28s;
+      user-select:none;
+      font-weight:600;
+      letter-spacing:0.6px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      min-height:48px;
+      overflow:visible;
+    }
+    .jobsheet-card .label{ display:flex; align-items:center; gap:10px; }
+    .jobsheet-card .label::before{
+      content:"";
+      width:10px; height:10px; border-radius:3px;
+      background: linear-gradient(135deg,var(--neon-1),var(--neon-2));
+      box-shadow:0 0 8px var(--neon-1);
+    }
+    .jobsheet-card:hover{
+      transform: translateY(-6px) scale(1.02);
+      box-shadow: 0 8px 30px rgba(0,242,254,0.08), 0 0 30px rgba(79,172,254,0.06);
+      border-color: rgba(0,242,254,0.35);
+    }
+
+    .jobsheet-card.active{
+      border-color: var(--neon-1);
+      box-shadow: 0 12px 50px rgba(0,242,254,0.12), 0 0 60px rgba(79,172,254,0.08);
+      transform: translateY(-10px) scale(1.02);
+      z-index: 5;
+      animation: pulseGlow 1.6s infinite alternate;
+    }
+    @keyframes pulseGlow{
+      from{ box-shadow: 0 0 20px var(--neon-1), 0 0 40px var(--neon-2) }
+      to{ box-shadow: 0 0 40px var(--neon-2), 0 0 80px var(--neon-1) }
+    }
+
+    .jobsheet-dropdown{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      margin-top:12px;
+      padding:6px;
+      transform-origin: top center;
+      transition: opacity .45s ease, transform .45s ease;
+      opacity:0;
+      transform: translateY(-6px) scaleY(.98);
+      pointer-events:none;
+    }
+    .jobsheet-card.active .jobsheet-dropdown{
+      opacity:1;
+      transform: translateY(0) scaleY(1);
+      pointer-events:auto;
+    }
+
+    .jobsheet-dropdown a{
+      position:relative;
+      display:block;
+      padding:10px 12px;
+      background: linear-gradient(90deg,var(--neon-1),var(--neon-2));
+      color:#000;
+      border-radius:8px;
+      text-decoration:none;
+      font-weight:700;
+      text-align:center;
+      box-shadow: 0 6px 18px rgba(0,242,254,0.12);
+      overflow:hidden;
+      transition: transform .22s ease, box-shadow .22s ease;
+    }
+    .jobsheet-dropdown a:hover{
+      transform: translateY(-4px) scale(1.03);
+      box-shadow: 0 12px 30px rgba(0,242,254,0.18);
+    }
+
+    /* ripple on click for arrow navigation */
+    .arrow-press {
+      animation: arrowPress .5s ease forwards;
+    }
+    @keyframes arrowPress {
+      0% { transform: scale(1); box-shadow: 0 6px 22px rgba(0,242,254,0.06); }
+      40% { transform: scale(.92); box-shadow: 0 4px 12px rgba(0,242,254,0.04); }
+      100% { transform: scale(1); box-shadow: 0 12px 40px rgba(0,242,254,0.12); }
+    }
+
+    /* responsive */
+    @media (max-width:760px){
+      .container{ padding:20px; gap:18px; }
+      .profile{ width:100%; max-width:520px; }
+      .top-right{ right:12px; top:12px; }
+    }
+  </style>
 </head>
 <body>
 
-    <header>
-        <h1>Our Jobsheet</h1>
-        <div class="nav-container">
-            <div class="nav-button">Menu</div>
-            <div class="dropdown">
-                <a href="index.html">Home</a>
-                <a href="aboutus.html">About Us</a>
-            </div>
+  <!-- top-right arrow button -->
+  <div class="top-right" aria-hidden="false">
+    <button id="homeArrow" class="arrow-btn" aria-label="Back to home">
+      <!-- SVG arrow styled to theme -->
+      <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M12 4 L12 20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M6 10 L12 4 L18 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span class="ripple" id="arrowRipple"></span>
+    </button>
+  </div>
+
+  <header>
+    <h1>Our Jobsheet</h1>
+  </header>
+
+  <main class="container" role="main">
+    <!-- Section Danish -->
+    <section class="profile" aria-labelledby="d-name">
+      <h2 id="d-name">DANISH SHAZWAN BIN SUWANDI</h2>
+      <div class="jobsheet-section" role="list">
+        <div class="jobsheet-card" role="button" tabindex="0">
+          <div class="label">HTML</div>
+          <div class="jobsheet-dropdown" aria-hidden="true">
+            <a href="DanishJS01.html" target="_blank" rel="noopener">Jobsheet 1</a>
+            <a href="DanishJS02.html" target="_blank" rel="noopener">Jobsheet 2</a>
+            <a href="DanishJS03.html" target="_blank" rel="noopener">Jobsheet 3</a>
+          </div>
         </div>
-    </header>
 
-    <div class="container">
-        <!-- Section Danish -->
-        <div class="profile">
-            <h2>DANISH SHAZWAN BIN SUWANDI</h2>
-            <div class="image-box"></div>
-            <div class="jobsheet-section">
-                <div class="jobsheet-card">HTML</div>
-                <div class="jobsheet-card">CSS</div>
-                <div class="jobsheet-card">JavaScript</div>
-                <div class="jobsheet-card">LocalStorage</div>
-            </div>
+        <div class="jobsheet-card" role="button" tabindex="0">
+          <div class="label">CSS</div>
+          <div class="jobsheet-dropdown" aria-hidden="true">
+            <a href="DanishCSS01.html" target="_blank" rel="noopener">Jobsheet 1</a>
+            <a href="DanishCSS02.html" target="_blank" rel="noopener">Jobsheet 2</a>
+            <a href="DanishCSS03.html" target="_blank" rel="noopener">Jobsheet 3</a>
+          </div>
         </div>
 
-        <!-- Section Adilah -->
-        <div class="profile">
-            <h2>NUR ADILAH BINTI SHAMSUDDIN</h2>
-            <div class="image-box"></div>
-            <div class="jobsheet-section">
-                <div class="jobsheet-card">HTML</div>
-                <div class="jobsheet-card">CSS</div>
-                <div class="jobsheet-card">JavaScript</div>
-                <div class="jobsheet-card">LocalStorage</div>
-            </div>
+        <div class="jobsheet-card" role="button" tabindex="0">
+          <div class="label">JavaScript</div>
+          <div class="jobsheet-dropdown" aria-hidden="true">
+            <a href="DanishJSCode01.html" target="_blank" rel="noopener">Jobsheet 1</a>
+            <a href="DanishJSCode02.html" target="_blank" rel="noopener">Jobsheet 2</a>
+            <a href="DanishJSCode03.html" target="_blank" rel="noopener">Jobsheet 3</a>
+          </div>
         </div>
-    </div>
 
-    <footer>
-        &copy; 2026 Group Project | Mobile App Development Assignment
-    </footer>
+        <div class="jobsheet-card" role="button" tabindex="0">
+          <div class="label">LocalStorage</div>
+          <div class="jobsheet-dropdown" aria-hidden="true">
+            <a href="DanishStorage01.html" target="_blank" rel="noopener">Jobsheet 1</a>
+            <a href="DanishStorage02.html" target="_blank" rel="noopener">Jobsheet 2</a>
+            <a href="DanishStorage03.html" target="_blank" rel="noopener">Jobsheet 3</a>
+          </div>
+        </div>
+      </div>
+    </section>
 
+    <!-- Section Adilah -->
+    <section class="profile" aria-labelledby="a-name">
+      <h2 id="a-name">NUR ADILAH BINTI SHAMSUDDIN</h2>
+      <div class="jobsheet-section" role="list">
+        <div class="jobsheet-card" role="button" tabindex="0">
+          <div class="label">HTML</div>
+          <div class="jobsheet-dropdown" aria-hidden="true">
+            <a href="AdilahJS01.html" target="_blank" rel="noopener">Jobsheet 1</a>
+            <a href="AdilahJS02.html" target="_blank" rel="noopener">Jobsheet 2</a>
+            <a href="AdilahJS03.html" target="_blank" rel="noopener">Jobsheet 3</a>
+          </div>
+        </div>
+
+        <div class="jobsheet-card" role="button" tabindex="0">
+          <div class="label">CSS</div>
+          <div class="jobsheet-dropdown" aria-hidden="true">
+            <a href="AdilahCSS01.html" target="_blank" rel="noopener">Jobsheet 1</a>
+            <a href="AdilahCSS02.html" target="_blank" rel="noopener">Jobsheet 2</a>
+            <a href="AdilahCSS03.html" target="_blank" rel="noopener">Jobsheet 3</a>
+          </div>
+        </div>
+
+        <div class="jobsheet-card" role="button" tabindex="0">
+          <div class="label">JavaScript</div>
+          <div class="jobsheet-dropdown" aria-hidden="true">
+            <a href="AdilahJSCode01.html" target="_blank" rel="noopener">Jobsheet 1</a>
+            <a href="AdilahJSCode02.html" target="_blank" rel="noopener">Jobsheet 2</a>
+            <a href="AdilahJSCode03.html" target="_blank" rel="noopener">Jobsheet 3</a>
+          </div>
+        </div>
+
+        <div class="jobsheet-card" role="button" tabindex="0">
+          <div class="label">LocalStorage</div>
+          <div class="jobsheet-dropdown" aria-hidden="true">
+            <a href="AdilahStorage01.html" target="_blank" rel="noopener">Jobsheet 1</a>
+            <a href="AdilahStorage02.html" target="_blank" rel="noopener">Jobsheet 2</a>
+            <a href="AdilahStorage03.html" target="_blank" rel="noopener">Jobsheet 3</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    &copy; 2026 Group Project | Mobile App Development Assignment
+  </footer>
+
+  <script>
+    // keep existing card behavior: click toggles dropdown within same profile
+    (function cardsBehavior(){
+      document.querySelectorAll('.jobsheet-card').forEach(card=>{
+        card.addEventListener('click', (ev)=>{
+          if(ev.target.closest('a')) return; // let links open
+          const parent = card.closest('.jobsheet-section');
+          parent.querySelectorAll('.jobsheet-card').forEach(c=>{
+            if(c !== card) c.classList.remove('active');
+          });
+          card.classList.toggle('active');
+        });
+        card.addEventListener('keydown', (e)=>{
+          if(e.key === 'Enter' || e.key === ' '){
+            e.preventDefault();
+            card.click();
+          } else if(e.key === 'Escape'){
+            card.classList.remove('active');
+          }
+        });
+      });
+
+      // click outside to close
+      document.addEventListener('click', (e)=>{
+        if(!e.target.closest('.jobsheet-card')) {
+          document.querySelectorAll('.jobsheet-card.active').forEach(c=>c.classList.remove('active'));
+        }
+      });
+    })();
+
+    // Arrow button: ripple + press animation then navigate to index.html
+    (function arrowNav(){
+      const btn = document.getElementById('homeArrow');
+      const ripple = document.getElementById('arrowRipple');
+
+      function createRippleEffect(){
+        // animate ripple scale
+        ripple.style.transition = 'transform 0.6s ease, opacity 0.6s ease';
+        ripple.style.transform = 'translate(-50%,-50%) scale(1)';
+        ripple.style.opacity = '0.12';
+        setTimeout(()=> {
+          ripple.style.transform = 'translate(-50%,-50%) scale(6)';
+          ripple.style.opacity = '0';
+        }, 10);
+      }
+
+      btn.addEventListener('click', (e)=>{
+        // visual press
+        btn.classList.remove('arrow-press');
+        void btn.offsetWidth;
+        btn.classList.add('arrow-press');
+
+        createRippleEffect();
+
+        // small delay to let effect show, then navigate
+        setTimeout(()=> {
+          // navigate to index.html (replace or open same tab)
+          window.location.href = 'index.html';
+        }, 260);
+      });
+
+      // keyboard accessibility
+      btn.addEventListener('keydown', (e)=>{
+        if(e.key === 'Enter' || e.key === ' '){
+          e.preventDefault();
+          btn.click();
+        }
+      });
+    })();
+  </script>
 </body>
 </html>
