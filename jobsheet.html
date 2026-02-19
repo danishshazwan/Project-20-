@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Jobsheet Page — Gempak Version</title>
+  <title>Jobsheet Page</title>
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <style>
     :root{
@@ -23,7 +23,7 @@
       min-height:100vh;
     }
 
-    /* circuit grid */
+    /* circuit grid background */
     body::before{
       content:"";
       position:fixed; inset:0;
@@ -39,54 +39,75 @@
     }
     @keyframes circuitFlow{from{transform:translateY(0)}to{transform:translateY(-60px)}}
 
-    /* top-right themed arrow button */
-    .top-right {
-      position: fixed;
-      top: 18px;
-      right: 22px;
-      z-index: 60;
+    /* ========================================= */
+    /* NEW NAVIGATION BUTTON STYLES         */
+    /* ========================================= */
+    .nav-container {
+        position: absolute;
+        top: 20px;
+        right: 30px;
+        z-index: 1000;
     }
-    .arrow-btn {
-      width:56px;
-      height:56px;
-      border-radius:14px;
-      background: linear-gradient(135deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
-      border: 2px solid rgba(0,242,254,0.12);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      cursor:pointer;
-      box-shadow: 0 6px 22px rgba(0,242,254,0.06), 0 0 18px rgba(79,172,254,0.04);
-      transition: transform .22s ease, box-shadow .22s ease, border-color .22s;
-      backdrop-filter: blur(6px);
+    .nav-button {
+        background: linear-gradient(135deg, var(--neon-1), var(--neon-2));
+        border: none;
+        color: #000;
+        padding: 12px 30px;
+        border-radius: 30px;
+        font-size: 0.9rem;
+        font-weight: 700;
+        letter-spacing: 3px;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.4s ease;
+        box-shadow: 0 0 15px var(--neon-1), 0 0 30px var(--neon-2);
+        text-shadow: 0 0 10px var(--neon-1);
+        font-family: 'Orbitron', sans-serif;
     }
-    .arrow-btn:hover{
-      transform: translateY(-4px) scale(1.03);
-      border-color: var(--neon-1);
-      box-shadow: 0 12px 40px rgba(0,242,254,0.12), 0 0 40px rgba(79,172,254,0.08);
+    .nav-button:hover {
+        color: #fff;
+        background: #000;
+        border: 2px solid var(--neon-1);
+        box-shadow: 0 0 25px var(--neon-1), 0 0 50px var(--neon-2);
     }
-    .arrow-icon{
-      width:22px; height:22px;
-      display:inline-block;
-      color: var(--neon-1);
-      filter: drop-shadow(0 0 8px var(--neon-1));
-      transition: transform .22s ease;
+    .dropdown {
+        position: absolute;
+        top: 110%;
+        right: 0;
+        background: rgba(0, 0, 0, 0.9);
+        border: 1px solid var(--neon-1);
+        border-radius: 10px;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-10px);
+        transition: 0.3s;
+        width: 160px;
+        text-align: center;
+        backdrop-filter: blur(5px);
     }
-
-    /* ripple effect element */
-    .ripple {
-      position:absolute;
-      left:50%; top:50%;
-      width:10px; height:10px;
-      background: radial-gradient(circle, rgba(255,255,255,0.9), rgba(255,255,255,0.2));
-      border-radius:50%;
-      transform: translate(-50%,-50%) scale(0);
-      opacity:0.18;
-      pointer-events:none;
+    .nav-container:hover .dropdown {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+    .dropdown a {
+        display: block;
+        color: #fff;
+        padding: 12px 0;
+        text-decoration: none;
+        font-size: 0.85rem;
+        transition: 0.3s;
+        font-family: 'Orbitron', sans-serif;
+    }
+    .dropdown a:hover {
+        background: var(--neon-1);
+        color: #000;
+        box-shadow: inset 0 0 10px var(--neon-1);
     }
 
     /* header */
-    header{ text-align:center; padding:44px 20px 10px; }
+    header{ text-align:center; padding:80px 20px 10px; }
     header h1{
       margin:0;
       font-size:2.6rem;
@@ -213,36 +234,23 @@
       box-shadow: 0 12px 30px rgba(0,242,254,0.18);
     }
 
-    /* ripple on click for arrow navigation */
-    .arrow-press {
-      animation: arrowPress .5s ease forwards;
-    }
-    @keyframes arrowPress {
-      0% { transform: scale(1); box-shadow: 0 6px 22px rgba(0,242,254,0.06); }
-      40% { transform: scale(.92); box-shadow: 0 4px 12px rgba(0,242,254,0.04); }
-      100% { transform: scale(1); box-shadow: 0 12px 40px rgba(0,242,254,0.12); }
-    }
-
     /* responsive */
     @media (max-width:760px){
       .container{ padding:20px; gap:18px; }
       .profile{ width:100%; max-width:520px; }
-      .top-right{ right:12px; top:12px; }
+      .nav-container{ right:15px; top:15px; } /* Adjusted for mobile */
     }
   </style>
 </head>
 <body>
 
-  <!-- top-right arrow button -->
-  <div class="top-right" aria-hidden="false">
-    <button id="homeArrow" class="arrow-btn" aria-label="Back to home">
-      <!-- SVG arrow styled to theme -->
-      <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <path d="M12 4 L12 20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        <path d="M6 10 L12 4 L18 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-      <span class="ripple" id="arrowRipple"></span>
-    </button>
+  <div class="nav-container">
+      <div class="nav-button">MENU</div>
+      <div class="dropdown">
+          <a href="index.html">HOME</a>
+          <a href="aboutus.html">ABOUT US</a>
+          <a href="jobsheet.html">JOBSHEET</a>
+      </div>
   </div>
 
   <header>
@@ -250,7 +258,6 @@
   </header>
 
   <main class="container" role="main">
-    <!-- Section Danish -->
     <section class="profile" aria-labelledby="d-name">
       <h2 id="d-name">DANISH SHAZWAN BIN SUWANDI</h2>
       <div class="jobsheet-section" role="list">
@@ -292,7 +299,6 @@
       </div>
     </section>
 
-    <!-- Section Adilah -->
     <section class="profile" aria-labelledby="a-name">
       <h2 id="a-name">NUR ADILAH BINTI SHAMSUDDIN</h2>
       <div class="jobsheet-section" role="list">
@@ -368,46 +374,7 @@
         }
       });
     })();
-
-    // Arrow button: ripple + press animation then navigate to index.html
-    (function arrowNav(){
-      const btn = document.getElementById('homeArrow');
-      const ripple = document.getElementById('arrowRipple');
-
-      function createRippleEffect(){
-        // animate ripple scale
-        ripple.style.transition = 'transform 0.6s ease, opacity 0.6s ease';
-        ripple.style.transform = 'translate(-50%,-50%) scale(1)';
-        ripple.style.opacity = '0.12';
-        setTimeout(()=> {
-          ripple.style.transform = 'translate(-50%,-50%) scale(6)';
-          ripple.style.opacity = '0';
-        }, 10);
-      }
-
-      btn.addEventListener('click', (e)=>{
-        // visual press
-        btn.classList.remove('arrow-press');
-        void btn.offsetWidth;
-        btn.classList.add('arrow-press');
-
-        createRippleEffect();
-
-        // small delay to let effect show, then navigate
-        setTimeout(()=> {
-          // navigate to index.html (replace or open same tab)
-          window.location.href = 'index.html';
-        }, 260);
-      });
-
-      // keyboard accessibility
-      btn.addEventListener('keydown', (e)=>{
-        if(e.key === 'Enter' || e.key === ' '){
-          e.preventDefault();
-          btn.click();
-        }
-      });
-    })();
+    // Removed old Arrow JS logic as it is no longer needed
   </script>
 </body>
 </html>
